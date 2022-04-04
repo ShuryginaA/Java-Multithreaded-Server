@@ -6,11 +6,13 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Server {
     public static volatile ServerTimer timer= new ServerTimer(0,0);
-    List<String> events=new ArrayList<>();
+    public static volatile Map<String,String> events=new HashMap<>();
 
     public void start(){
         ServerSocket server = null;
@@ -25,6 +27,7 @@ public class Server {
                 ClientHandler clientSock
                         = new ClientHandler(client);
                 new Thread(clientSock).start();
+                System.out.println(events);
             }
         }
         catch (IOException e) {
