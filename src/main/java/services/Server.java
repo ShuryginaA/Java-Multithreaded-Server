@@ -19,6 +19,7 @@ public class Server {
         try {
             server = new ServerSocket(1234);
             server.setReuseAddress(true);
+            System.out.println("Сервер запущен");
             while (true) {
                 Socket client = server.accept();
                 System.out.println("New client connected "
@@ -27,7 +28,7 @@ public class Server {
                 ClientHandler clientSock
                         = new ClientHandler(client);
                 new Thread(clientSock).start();
-                System.out.println(events);
+//                System.out.println(events);
             }
         }
         catch (IOException e) {

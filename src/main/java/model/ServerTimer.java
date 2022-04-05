@@ -56,7 +56,9 @@ public class ServerTimer {
     //Facilitators
     public String toString()
     {
-        return "Start server time is " + getHour() + ":" + getMinute();
+        return "Current server time is "+getHour() + ":" + getMinute();
+
+
     }
 
     public boolean equals(Object o)

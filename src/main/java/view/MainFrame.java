@@ -1,22 +1,20 @@
 package view;
 
-import model.ServerTimer;
 import services.Server;
 import services.TimeChanger;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class MainFrame extends JFrame{
 
-    private JTextField textField1;
+    private JTextField start_time;
     private javax.swing.JPanel JPanel;
     private JButton button;
+    private JTextField current_time;
 
     public MainFrame() {
-        textField1.setText(Server.timer.toString());
-        button.addActionListener(e -> textField1.setText(Server.timer.toString()));
+        start_time.setText("Start server time: 0:0");
+        button.addActionListener(e -> current_time.setText(Server.timer.toString()));
     }
 
 
