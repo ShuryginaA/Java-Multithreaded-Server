@@ -23,10 +23,14 @@ public class ClientForm extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 client.sendData(time.getText(),event.getText());
-
+                clearFields();
 
             }
         });
+    }
+    private void clearFields(){
+        time.setText("");
+        event.setText("");
     }
     public static void main(String[] args) throws IOException {
         ClientForm mf=new ClientForm();

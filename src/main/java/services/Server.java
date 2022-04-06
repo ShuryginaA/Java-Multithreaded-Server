@@ -5,9 +5,7 @@ import model.ServerTimer;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Server {
@@ -19,7 +17,7 @@ public class Server {
         try {
             server = new ServerSocket(1234);
             server.setReuseAddress(true);
-            System.out.println("Сервер запущен");
+            System.out.println("Server started");
             while (true) {
                 Socket client = server.accept();
                 System.out.println("New client connected "
@@ -28,7 +26,6 @@ public class Server {
                 ClientHandler clientSock
                         = new ClientHandler(client);
                 new Thread(clientSock).start();
-//                System.out.println(events);
             }
         }
         catch (IOException e) {

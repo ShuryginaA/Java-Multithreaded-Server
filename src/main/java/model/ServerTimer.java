@@ -7,7 +7,6 @@ public class ServerTimer {
     public int hour;
     public int minute;
 
-    //Constructors
     public ServerTimer()
     {
         hour = 0;
@@ -20,7 +19,6 @@ public class ServerTimer {
         setMinute(minute);
     }
 
-    //Accessors
     public void setHour(int alarmH)
     {
         if((alarmH >= 0) && (alarmH <= 24))
@@ -52,8 +50,6 @@ public class ServerTimer {
     {
         return "The alarm is set to " + hour + ":" + minute ;
     }
-
-    //Facilitators
     public String toString()
     {
         return "Current server time is "+getHour() + ":" + getMinute();

@@ -2,8 +2,12 @@ package view;
 
 import services.Server;
 import services.TimeChanger;
+import static services.Server.events;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Map;
 
 public class MainFrame extends JFrame{
 
@@ -11,10 +15,23 @@ public class MainFrame extends JFrame{
     private javax.swing.JPanel JPanel;
     private JButton button;
     private JTextField current_time;
+    private JTextArea Events;
+    private JButton showEvents;
 
     public MainFrame() {
         start_time.setText("Start server time: 0:0");
         button.addActionListener(e -> current_time.setText(Server.timer.toString()));
+        showEvents.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                StringBuilder s= new StringBuilder();
+                for(Map.Entry<String,String> map:events.entrySet())
+                {
+                    s.append(map.getKey()).append(" ").append(map.getValue()).append("\n");
+                }
+                Events.setText(s.toString());
+            }
+        });
     }
 
 

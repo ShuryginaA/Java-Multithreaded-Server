@@ -1,9 +1,19 @@
 package model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 
-@Builder
-public class Message {
+import java.io.Serializable;
+
+@Getter
+@AllArgsConstructor
+public class Message implements Serializable {
     private String time;
-    private String date;
+    private String event;
+
+    @Override
+    public String toString(){
+        return time+"  "+event;
+    }
 }

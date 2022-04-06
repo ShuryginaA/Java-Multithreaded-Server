@@ -1,8 +1,10 @@
 package services;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
+import model.Message;
+
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 
 // services.Client class
 public class Client {
@@ -13,20 +15,18 @@ public class Client {
     }
     public void sendData(String time, String event) throws IOException {
         Socket socket = new Socket("localhost", 1234);
-        PrintWriter out = new PrintWriter(
-                socket.getOutputStream(), true);
+       ObjectOutputStream os=new ObjectOutputStream(socket.getOutputStream());
+       os.writeObject(new Message(time,event));
 
         // reading from server
-        BufferedReader in
-                = new BufferedReader(new InputStreamReader(
-                socket.getInputStream()));
-
-            out.println(time+" "+event);
-            out.flush();
-
-            // displaying server reply
-            System.out.println("Server replied "
-                    + in.readLine());
+//        BufferedReader in
+//                = new BufferedReader(new InputStreamReader(
+//                socket.getInputStream()));
+//
+//            // displaying server reply
+//            System.out.println("Server replied "
+//                    + in.readLine());
+            socket.close();
 
         // closing the scanner object
     }
