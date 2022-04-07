@@ -3,26 +3,35 @@ package services;
 import model.ServerTimer;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Server {
-    public static volatile ServerTimer timer= new ServerTimer(0,0);
-    public static volatile Map<String,String> events=new HashMap<>();
 
-    public void start(){
-        ServerSocket server = null;
+    int port=4321;
+    InetAddress ip=null;
+    ServerSocket server = null;
+    public static volatile ServerTimer timer= new ServerTimer();
+    public static volatile Map<LocalTime,String> events=new HashMap<>();
+
+    private int countClients=0;
+
+    public void start() throws UnknownHostException {
+        ip=InetAddress.getLocalHost();
         try {
-            server = new ServerSocket(1234);
-            server.setReuseAddress(true);
+            server = new ServerSocket(port,0,ip);
             System.out.println("Server started");
             while (true) {
                 Socket client = server.accept();
+                countClients++;
                 System.out.println("New client connected "
-                        + client.getInetAddress()
-                        .getHostAddress());
+                        + client.getLocalPort()
+                +" "+ countClients);
                 ClientHandler clientSock
                         = new ClientHandler(client);
                 new Thread(clientSock).start();

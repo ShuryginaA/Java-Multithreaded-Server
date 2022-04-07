@@ -2,6 +2,12 @@ package services;
 
 import model.ServerTimer;
 
+import java.time.LocalTime;
+import java.util.Map;
+
+import static services.Server.events;
+import static services.Server.timer;
+
 public class TimeChanger extends Thread{
 
     public TimeChanger(){
@@ -10,13 +16,20 @@ public class TimeChanger extends Thread{
     }
     @Override
     public void run(){
-        int currentH= Server.timer.getHour();
-        int currentM=Server.timer.getMinute();
+        int currentH= timer.getTimer().getHour();
+        int currentM= timer.getTimer().getMinute();
         while(true) {
-            if(currentM==59)
-            Server.timer.setTime(currentH++, 0);
-            else
-                Server.timer.setMinute(currentM++);
+            for(Map.Entry<LocalTime,String> map:events.entrySet())
+            {
+                if((timer.getTimer().equals(map.getKey())))
+                    System.out.println(map.getKey() +" "+ map.getValue());
+            }
+            if(currentM==59) {
+                timer.setTimer(LocalTime.of(currentH++,0));
+            }
+            else {
+                timer.setTimer(LocalTime.of(currentH,currentM++));
+            }
             try {
                 sleep(60000);
             } catch (InterruptedException e) {

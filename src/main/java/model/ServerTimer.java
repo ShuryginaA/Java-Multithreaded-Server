@@ -1,75 +1,25 @@
 package model;
 
 import lombok.Getter;
+import lombok.Setter;
+
+import java.time.LocalTime;
 
 @Getter
+@Setter
 public class ServerTimer {
-    public int hour;
-    public int minute;
+    public Integer hour;
+    public Integer minute;
+    private LocalTime timer;
 
-    public ServerTimer()
-    {
-        hour = 0;
-        minute = 0;
+    public ServerTimer(){
+        timer=LocalTime.of(0,0);
     }
 
-    public ServerTimer(int hour, int minute)
-    {
-        setHour(hour);
-        setMinute(minute);
-    }
-
-    public void setHour(int alarmH)
-    {
-        if((alarmH >= 0) && (alarmH <= 24))
-            hour = alarmH;
-        else
-            System.out.println("Fatal error: invalid alarm hour");
-    }
-
-    public void setMinute(int alarmM)
-    {
-        if((alarmM >= 0) && (alarmM <= 59))
-            minute = alarmM;
-        else
-            System.out.println("Fatal error: invalid alarm minute");
-    }
-
-    public void setTime(int h,int m)
-    {
-        if((m >= 0) && (m <= 59) && (h>=0)&& (h<=24)) {
-            minute = m;
-            hour = h;
-        }
-        else
-            System.out.println("Fatal error: invalid alarm time");
-    }
-
-
-    public String getCurrentAlarmTime()
-    {
-        return "The alarm is set to " + hour + ":" + minute ;
-    }
     public String toString()
     {
-        return "Current server time is "+getHour() + ":" + getMinute();
+        return "Current server time is "+timer.toString();
 
-
-    }
-
-    public boolean equals(Object o)
-    {
-        if(o == null)
-            return false;
-        else if(getClass() != o.getClass())
-            return false;
-        else
-        {
-            ServerTimer otherClock = (ServerTimer) o;
-            return((getHour() == otherClock.getHour()) && (getMinute() == otherClock.getMinute())
-                  ) && (hour == otherClock.hour)
-                    && (minute == otherClock.minute);
-        }
 
     }
 }

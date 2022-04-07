@@ -7,6 +7,8 @@ import static services.Server.events;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.UnknownHostException;
+import java.time.LocalTime;
 import java.util.Map;
 
 public class MainFrame extends JFrame{
@@ -20,12 +22,12 @@ public class MainFrame extends JFrame{
 
     public MainFrame() {
         start_time.setText("Start server time: 0:0");
-        button.addActionListener(e -> current_time.setText(Server.timer.toString()));
+        button.addActionListener(e -> current_time.setText(Server.timer.getTimer().toString()));
         showEvents.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 StringBuilder s= new StringBuilder();
-                for(Map.Entry<String,String> map:events.entrySet())
+                for(Map.Entry<LocalTime,String> map:events.entrySet())
                 {
                     s.append(map.getKey()).append(" ").append(map.getValue()).append("\n");
                 }
@@ -35,7 +37,7 @@ public class MainFrame extends JFrame{
     }
 
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws UnknownHostException {
         MainFrame mf=new MainFrame();
         mf.setContentPane(new MainFrame().JPanel);
         mf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
