@@ -1,8 +1,11 @@
 package services;
 
+import model.Message;
 import model.ServerTimer;
 
 import java.io.IOException;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -18,6 +21,8 @@ public class Server {
     ServerSocket server = null;
     public static volatile ServerTimer timer= new ServerTimer();
     public static volatile Map<LocalTime,String> events=new HashMap<>();
+    Thread t;
+    ObjectOutputStream os;
 
     private int countClients=0;
 
@@ -32,10 +37,28 @@ public class Server {
                 System.out.println("New client connected "
                         + client.getLocalPort()
                 +" "+ countClients);
+                os=new ObjectOutputStream(client.getOutputStream());
+                alarm();
                 ClientHandler clientSock
                         = new ClientHandler(client);
                 new Thread(clientSock).start();
+//                t=new Thread(
+//                        ()-> { while(true) {
+//                            for (Map.Entry<LocalTime, String> map : events.entrySet()) {
+//                                if ((timer.getTimer().equals(map.getKey()))) {
+//                                    try {
+//                                        os.writeObject(new Message(map.getKey().toString(), map.getValue()));
+//                                        break;
+//                                    } catch (IOException e) {
+//                                        e.printStackTrace();
+//                                    }
+////                                    System.out.println("Alarm rings from server: " + map.getKey() + " " + map.getValue());
+//                                }
+//                            }
+//                        }});
+//                t.start();
             }
+
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -50,5 +73,25 @@ public class Server {
                 }
             }
         }
+
+    }
+
+    private void alarm(){
+        t=new Thread(
+                ()-> { while(true) {
+                    for (Map.Entry<LocalTime, String> map : events.entrySet()) {
+                        if ((timer.getTimer().equals(map.getKey()))) {
+                            try {
+                                os.writeObject(new Message(map.getKey().toString(), map.getValue()));
+                                break;
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+//                                    System.out.println("Alarm rings from server: " + map.getKey() + " " + map.getValue());
+                        }
+                    }
+                }});
+        t.start();
+
     }
 }

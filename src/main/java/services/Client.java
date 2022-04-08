@@ -3,10 +3,7 @@ package services;
 import lombok.AllArgsConstructor;
 import model.Message;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 
@@ -14,28 +11,24 @@ import java.net.Socket;
 public class Client {
     Socket clientSocket;
     ObjectOutputStream os;
+    ObjectInputStream is;
     public Client(Socket clientSocket) throws IOException {
         this.clientSocket=clientSocket;
         os=new ObjectOutputStream(clientSocket.getOutputStream());
+//        is=new ObjectInputStream(clientSocket.getInputStream());
     }
 
     public Socket connect() throws IOException {
         return new Socket(InetAddress.getLocalHost(), 4321);
     }
-    public void sendData(String time, String event,Socket socket) throws IOException {
+    public void sendData(String time, String event,Socket socket) throws IOException, ClassNotFoundException {
        os.writeObject(new Message(time,event));
+    }
+    public void waiting() throws IOException, ClassNotFoundException {
+            Message message= (Message)is.readObject();
+            System.out.println("Alarm rings "
+                    + message.toString());
 
-        // reading from server
-//        BufferedReader in
-//                = new BufferedReader(new InputStreamReader(
-//                socket.getInputStream()));
-//
-//            // displaying server reply
-//            System.out.println("Server replied "
-//                    + in.readLine());
-//            socket.close();
-
-        // closing the scanner object
     }
 }
 

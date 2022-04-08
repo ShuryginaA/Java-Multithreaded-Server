@@ -19,11 +19,6 @@ public class TimeChanger extends Thread{
         int currentH= timer.getTimer().getHour();
         int currentM= timer.getTimer().getMinute();
         while(true) {
-            for(Map.Entry<LocalTime,String> map:events.entrySet())
-            {
-                if((timer.getTimer().equals(map.getKey())))
-                    System.out.println(map.getKey() +" "+ map.getValue());
-            }
             if(currentM==59) {
                 timer.setTimer(LocalTime.of(currentH++,0));
             }
@@ -31,6 +26,11 @@ public class TimeChanger extends Thread{
                 timer.setTimer(LocalTime.of(currentH,currentM++));
             }
             try {
+                for(Map.Entry<LocalTime,String> map:events.entrySet())
+                {
+                    if((timer.getTimer().equals(map.getKey())))
+                        System.out.println("Alarm rings: "+map.getKey() +" "+ map.getValue());
+                }
                 sleep(60000);
             } catch (InterruptedException e) {
                 e.printStackTrace();

@@ -7,6 +7,7 @@ import static services.Server.events;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.net.UnknownHostException;
 import java.time.LocalTime;
 import java.util.Map;
@@ -37,7 +38,7 @@ public class MainFrame extends JFrame{
     }
 
 
-    public static void main(String[] args) throws UnknownHostException {
+    public static void main(String[] args) throws IOException {
         MainFrame mf=new MainFrame();
         mf.setContentPane(new MainFrame().JPanel);
         mf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
