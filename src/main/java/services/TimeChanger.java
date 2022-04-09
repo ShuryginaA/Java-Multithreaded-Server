@@ -31,7 +31,7 @@ public class TimeChanger extends Thread{
                     if((timer.getTimer().equals(map.getKey())))
                         System.out.println("Alarm rings: "+map.getKey() +" "+ map.getValue());
                 }
-                sleep(60000);
+                sleep(20000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

@@ -11,8 +11,12 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.time.LocalTime;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 public class Server {
 
@@ -21,6 +25,7 @@ public class Server {
     ServerSocket server = null;
     public static volatile ServerTimer timer= new ServerTimer();
     public static volatile Map<LocalTime,String> events=new HashMap<>();
+    Set<String> set = Collections.newSetFromMap(new ConcurrentHashMap<>());
     Thread t;
     ObjectOutputStream os;
 
@@ -37,26 +42,11 @@ public class Server {
                 System.out.println("New client connected "
                         + client.getLocalPort()
                 +" "+ countClients);
-                os=new ObjectOutputStream(client.getOutputStream());
+//                os=new ObjectOutputStream(client.getOutputStream());
                 alarm();
                 ClientHandler clientSock
                         = new ClientHandler(client);
                 new Thread(clientSock).start();
-//                t=new Thread(
-//                        ()-> { while(true) {
-//                            for (Map.Entry<LocalTime, String> map : events.entrySet()) {
-//                                if ((timer.getTimer().equals(map.getKey()))) {
-//                                    try {
-//                                        os.writeObject(new Message(map.getKey().toString(), map.getValue()));
-//                                        break;
-//                                    } catch (IOException e) {
-//                                        e.printStackTrace();
-//                                    }
-////                                    System.out.println("Alarm rings from server: " + map.getKey() + " " + map.getValue());
-//                                }
-//                            }
-//                        }});
-//                t.start();
             }
 
         }
@@ -77,21 +67,20 @@ public class Server {
     }
 
     private void alarm(){
-        t=new Thread(
-                ()-> { while(true) {
-                    for (Map.Entry<LocalTime, String> map : events.entrySet()) {
-                        if ((timer.getTimer().equals(map.getKey()))) {
-                            try {
-                                os.writeObject(new Message(map.getKey().toString(), map.getValue()));
-                                break;
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-//                                    System.out.println("Alarm rings from server: " + map.getKey() + " " + map.getValue());
-                        }
-                    }
-                }});
-        t.start();
+//        t=new Thread(
+//                ()-> { while(true) {
+//                    for (Map.Entry<LocalTime, String> map : events.entrySet()) {
+//                        if ((timer.getTimer().equals(map.getKey()))) {
+//                            try {
+//                                os.writeObject(new Message(map.getKey().toString(), map.getValue()));
+//                                break;
+//                            } catch (IOException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//                    }
+//                }});
+//        t.start();
 
     }
 }
