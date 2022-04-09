@@ -41,15 +41,19 @@ public class ClientHandler extends Thread {
             }
             t=new Thread(
                     ()-> { while(true) {
-                        for (Map.Entry<LocalTime, String> map : events.entrySet()) {
-                            if ((timer.getTimer().equals(map.getKey()))) {
-                                try {
-                                    os.writeObject(new Message(map.getKey().toString(), map.getValue()));
-                                    break;
-                                } catch (IOException e) {
-                                    e.printStackTrace();
+                        try {
+                            for (Map.Entry<String, String> map : Server.getAllMessages().entrySet()) {
+                                if ((timer.getTimer().equals(LocalTime.parse(map.getKey())))) {
+                                    try {
+                                        os.writeObject(new Message(map.getKey(), map.getValue()));
+                                        break;
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
                             }
+                        } catch (SQLException e) {
+                            e.printStackTrace();
                         }
                     }});
             t.start();
